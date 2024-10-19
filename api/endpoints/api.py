@@ -6,7 +6,7 @@ import subprocess
 from fastapi import status, FastAPI, HTTPException
 from terraform.tf_handler import generate_terraform_code
 from ansible.ansible_handler import run_ansible_playbook
-from config.postgres_config import PostgresAndServerConfig
+from config.postgres_and_server_config import PostgresAndServerConfig
 
 app = FastAPI()
 
