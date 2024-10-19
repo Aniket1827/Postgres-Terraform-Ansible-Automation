@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install PostgreSQL
+      apt:
+        name: "postgresql-{{ postges_version }}"
+        state: present
+      vars:
+        postges_version: "{{ postges_version }}"
+
+    - name: Configure primary
+      template:
+        src: primary.conf.j2
+        dest: /etc/postgresql/{{ pg_version }}/main/postgresql.conf
+      when: inventory_hostname == groups['primary'][0]
+
+    - name: Configure replicas
+      template:
+        src: replica.conf.j2
+        dest: /etc/postgresql/{{ pg_version }}/main/postgresql.conf
+      when: inventory_hostname != groups['primary'][0]
